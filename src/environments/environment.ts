@@ -10,7 +10,6 @@ export const environment = {
   baseUrl: 'http://localhost:8080/',
   baseApiUrl: 'http://localhost:4200/api/',
   baseApiLocal: 'http://localhost:4200/',
-  // baseUrl: '',
   useHash: false,
   hmr: false,
 };

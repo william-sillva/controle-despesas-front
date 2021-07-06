@@ -37,7 +37,7 @@ export class AuthService {
 
     this.token
       .refresh()
-      .pipe(switchMap(() => this.refresh()))
+      // .pipe(switchMap(() => this.refresh()))
       .subscribe();
   }
 

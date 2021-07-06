@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './sessions/login/login.component';
 import { RegisterComponent } from './sessions/register/register.component';
 import { AuthGuard } from '@core/authentication/auth.guard';
+import {LaunchsComponent} from './launchs/launchs.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
+      {
+        path: 'launchs',
+        component: LaunchsComponent,
+      },
       {
         path: 'design',
         loadChildren: () => import('./design/design.module').then(m => m.DesignModule),

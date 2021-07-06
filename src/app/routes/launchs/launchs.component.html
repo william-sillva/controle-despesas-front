@@ -1,0 +1,79 @@
+<page-header></page-header>
+
+<div fxLayout="row wrap" class="matero-row">
+  <div fxFlex="100" class="matero-col">
+    <mat-card>
+      <mat-card-title>Form Horizontal</mat-card-title>
+      <form [formGroup]="formGroup" class="form-field-full">
+        <div fxLayout="row wrap" fxLayoutGap="8px grid">
+          <div fxFlex="50" fxFlex.lt-sm="100">
+            <mat-label class="row margin-bottom-10px">{{'launchs.typeLaunch' | translate}}</mat-label>
+            <mat-radio-group formControlName="tpLaunch" name="bread" aria-label="Breads">
+              <mat-radio-button value="C" class="margin-right-10px">{{'launchs.credit' | translate}}</mat-radio-button>
+              <mat-radio-button value="D">{{'launchs.debit' | translate}}</mat-radio-button>
+            </mat-radio-group>
+            <mat-error *ngIf="formGroup.get('tpLaunch').invalid">
+              {{'validations.required' | translate}}
+            </mat-error>
+          </div>
+
+          <div fxFlex="50" fxFlex.lt-sm="100">
+            <mat-form-field>
+              <mat-label>Username</mat-label>
+              <input matInput placeholder="Simple placeholder" formControlName="username"
+                     required>
+              <mat-error *ngIf="formGroup.get('username').invalid">
+                {{'validations.required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50" fxFlex.lt-sm="100">
+            <mat-form-field>
+              <mat-label>Gender</mat-label>
+              <mat-select required formControlName="gender" required>
+                <mat-option>-- None --</mat-option>
+                <mat-option value="1">male</mat-option>
+                <mat-option value="2">female</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('gender').invalid">
+                {{'validations.required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50" fxFlex.lt-sm="100">
+            <mat-form-field>
+              <mat-label>Mobile</mat-label>
+              <input matInput placeholder="Simple placeholder" type="number"
+                     formControlName="mobile" required>
+              <mat-icon matSuffix>smartphone</mat-icon>
+              <mat-error *ngIf="formGroup.get('mobile').invalid">
+                {{'validations.required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="50" fxFlex.lt-sm="100">
+            <mat-form-field>
+              <input matInput [matDatepicker]="dtPicker"
+                     placeholder="{{'launchs.launchDate' | translate}}"
+                     formControlName="datePicker">
+              <mat-datepicker-toggle matSuffix [for]="dtPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dtPicker></mat-datepicker>
+              <mat-error *ngIf="formGroup.get('datePicker').invalid">
+                {{'validations.required' | translate}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap" class="padding-left-96pc">
+          <button mat-raised-button
+                  color="primary"
+                  (click)="persist()"
+                  class="m-t-8">Save</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

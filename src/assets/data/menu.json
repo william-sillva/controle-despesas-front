@@ -11,6 +11,12 @@
       }
     },
     {
+      "route": "launchs",
+      "name": "launchs",
+      "type": "link",
+      "icon": "account_balance_wallet"
+    },
+    {
       "route": "design",
       "name": "design",
       "type": "sub",

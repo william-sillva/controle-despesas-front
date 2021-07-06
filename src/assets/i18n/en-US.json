@@ -1,6 +1,7 @@
 {
   "menu": {
     "dashboard": "Dashboard",
+    "launchs": "Launchs",
     "design": "Design",
     "design.colors": "Color System",
     "design.icons": "Material Icons",
@@ -139,5 +140,11 @@
     "confirm_delete": "Confirm delete?",
     "ok": "Ok",
     "close": "Close"
+  },
+  "launchs":  {
+    "typeLaunch": "Type Launch",
+    "credit": "Credit",
+    "debit": "Debit",
+    "launchDate": "Launch Date"
   }
 }
