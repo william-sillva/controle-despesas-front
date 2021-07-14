@@ -5,23 +5,18 @@ import { RoutesRoutingModule } from './routes-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './sessions/login/login.component';
 import { RegisterComponent } from './sessions/register/register.component';
-import { LaunchsComponent } from './launchs';
-import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { LaunchsService } from './launchs/service';
+import { LaunchsModule } from './launchs';
 
-const COMPONENTS = [DashboardComponent, LaunchsComponent, LoginComponent, RegisterComponent];
+const COMPONENTS = [DashboardComponent, LoginComponent, RegisterComponent];
 const COMPONENTS_DYNAMIC = [];
 
 @NgModule({
   imports: [
     SharedModule,
     RoutesRoutingModule,
-    CurrencyMaskModule
+    LaunchsModule
   ],
   declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
-  entryComponents: COMPONENTS_DYNAMIC,
-  providers: [
-    LaunchsService
-  ]
+  entryComponents: COMPONENTS_DYNAMIC
 })
 export class RoutesModule {}

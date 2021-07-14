@@ -13,8 +13,20 @@
     {
       "route": "launchs",
       "name": "launchs",
-      "type": "link",
-      "icon": "account_balance_wallet"
+      "type": "sub",
+      "icon": "account_balance_wallet",
+      "children": [
+        {
+          "route": "register",
+          "name": "register",
+          "type": "link"
+        },
+        {
+          "route": "listing",
+          "name": "listing",
+          "type": "link"
+        }
+      ]
     },
     {
       "route": "design",

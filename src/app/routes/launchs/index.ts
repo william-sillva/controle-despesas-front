@@ -1,1 +1,1 @@
-export * from "./launchs.component";
+export * from "./launchs.module";

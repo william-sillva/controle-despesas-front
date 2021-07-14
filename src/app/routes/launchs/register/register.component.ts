@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import {LaunchsService} from './service';
+import {RegisterService} from './service';
 import {TokenService} from '@core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TranslateService} from '@ngx-translate/core';
@@ -20,9 +20,9 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-launchs',
-  templateUrl: './launchs.component.html',
-  styleUrls: ['./launchs.component.scss'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
   providers: [
     {
       provide: DateAdapter,
@@ -35,7 +35,7 @@ export const MY_FORMATS = {
     }
   ],
 })
-export class LaunchsComponent implements OnInit {
+export class RegisterComponent implements OnInit {
 
   formGroup: FormGroup;
   expensesTypes: [];
@@ -43,7 +43,7 @@ export class LaunchsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _adapter: DateAdapter<any>,
-    private launchsService: LaunchsService,
+    private service: RegisterService,
     private tokenService: TokenService,
     public snackBar: MatSnackBar,
     private translate: TranslateService
@@ -75,7 +75,7 @@ export class LaunchsComponent implements OnInit {
   }
 
   getExpensivesType() {
-    this.launchsService.getDespesasTypes()
+    this.service.getDespesasTypes()
       .subscribe(
         data => {
           this.expensesTypes = data.data ? data.data : [];
@@ -89,7 +89,7 @@ export class LaunchsComponent implements OnInit {
 
   persistData(): void {
     const data = this.getDataConvert();
-    this.launchsService.persit(data)
+    this.service.persit(data)
       .subscribe(
         result => {
           if (result && result.data.id) {
@@ -124,11 +124,11 @@ export class LaunchsComponent implements OnInit {
   }
 
   resetFormGroup(): void {
-      this.formGroup.controls.tpLaunch.reset('C');
-      this.formGroup.controls.valueLaunch.reset('');
-      this.formGroup.controls.expenseType.reset({value:'', disabled: true});
-      this.formGroup.controls.observation.reset('');
-      this.formGroup.controls.datePicker.reset('');
+    this.formGroup.controls.tpLaunch.reset('C');
+    this.formGroup.controls.valueLaunch.reset('');
+    this.formGroup.controls.expenseType.reset({value:'', disabled: true});
+    this.formGroup.controls.observation.reset('');
+    this.formGroup.controls.datePicker.reset('');
   }
 
   handleMessageTranslate(key): void {
@@ -143,4 +143,5 @@ export class LaunchsComponent implements OnInit {
       duration: 3000,
     });
   }
+
 }

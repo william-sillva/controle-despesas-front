@@ -6,7 +6,7 @@ import { environment as env } from '@env/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class LaunchsService {
+export class RegisterService {
 
   private readonly PATH: string = 'lancamentos';
 
@@ -26,4 +26,5 @@ export class LaunchsService {
       data
     )
   }
+
 }

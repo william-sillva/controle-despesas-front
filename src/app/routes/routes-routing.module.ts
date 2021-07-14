@@ -8,7 +8,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './sessions/login/login.component';
 import { RegisterComponent } from './sessions/register/register.component';
 import { AuthGuard } from '@core/authentication/auth.guard';
-import {LaunchsComponent} from './launchs/launchs.component';
 
 const routes: Routes = [
   {
@@ -21,7 +20,7 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       {
         path: 'launchs',
-        component: LaunchsComponent,
+        loadChildren: () => import('./launchs/launchs.module').then(m => m.LaunchsModule),
       },
       {
         path: 'design',

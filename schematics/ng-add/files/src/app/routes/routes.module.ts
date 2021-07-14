@@ -3,7 +3,9 @@ import { SharedModule } from '@shared/shared.module';
 import { RoutesRoutingModule } from './routes-routing.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+// @ts-ignore
 import { LoginComponent } from './sessions/login/login.component';
+// @ts-ignore
 import { RegisterComponent } from './sessions/register/register.component';
 
 const COMPONENTS = [DashboardComponent, LoginComponent, RegisterComponent];
