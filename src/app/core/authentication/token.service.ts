@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, timer} from 'rxjs';
-import { filter, map, share, switchMap, tap} from 'rxjs/operators';
-import { LocalStorageService } from '../../shared/services/storage.service';
-import { RefreshToken, Token, User} from './interface';
+import { BehaviorSubject, timer } from 'rxjs';
+import { filter, map, share, switchMap } from 'rxjs/operators';
+import { LocalStorageService } from '@shared';
+import { RefreshToken, Token } from './interface';
 import { SimpleToken } from './token';
 
 @Injectable({
@@ -77,4 +77,5 @@ export class TokenService {
   headerValue() {
     return this.token.headerValue();
   }
+
 }

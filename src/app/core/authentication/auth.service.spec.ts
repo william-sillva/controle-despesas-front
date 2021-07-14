@@ -30,11 +30,13 @@ describe('AuthService', () => {
   });
 
   it('should log in failed', () => {
+    // @ts-ignore
     authService.login(email, 'password', false).subscribe(isLogin => expect(isLogin).toBeFalse());
     httpMock.expectOne('/auth/login').flush({});
   });
 
   it('should log in successful and get user info', () => {
+    // @ts-ignore
     authService.login(email, 'password', false).subscribe(isLogin => expect(isLogin).toBeTrue());
     authService
       .user()
@@ -46,6 +48,7 @@ describe('AuthService', () => {
   });
 
   it('should refresh token after 5 seconds', fakeAsync(() => {
+    // @ts-ignore
     authService.login(email, 'password', false).subscribe(isLogin => expect(isLogin).toBeTrue());
     httpMock.expectOne('/auth/login').flush(Object.assign({ expires_in: 5 }, token));
     tick(5000);
@@ -53,6 +56,7 @@ describe('AuthService', () => {
   }));
 
   it('should log out failed when user is not login', () => {
+    // @ts-ignore
     authService.logout().subscribe();
     httpMock.expectNone('/logout');
   });
@@ -65,6 +69,7 @@ describe('AuthService', () => {
     tokenService.change().subscribe(() => changeTimes++);
     tokenService.refresh().subscribe(() => refreshTimes++);
 
+    // @ts-ignore
     authService.logout().subscribe(isLogout => expect(isLogout).toBeTrue());
 
     authService

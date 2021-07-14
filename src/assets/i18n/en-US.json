@@ -2,6 +2,8 @@
   "menu": {
     "dashboard": "Dashboard",
     "launchs": "Launchs",
+    "launchs.register": "Register",
+    "launchs.listing": "Listing",
     "design": "Design",
     "design.colors": "Color System",
     "design.icons": "Material Icons",
@@ -142,9 +144,18 @@
     "close": "Close"
   },
   "launchs":  {
+    "titleLaunch": "Launchs",
     "typeLaunch": "Type Launch",
     "credit": "Credit",
     "debit": "Debit",
-    "launchDate": "Launch Date"
+    "launchDate": "Launch Date",
+    "value": "Value",
+    "launchValue": "Launch Value",
+    "observation": "Observation",
+    "launchObservation": "Launch Observation",
+    "expensesTypes": "Types of Expenses",
+    "msgRequiredFields": "Required fields not informed!",
+    "msgErrorData": "Error writing data!",
+    "msgSuccessData": "Data registered successfully!"
   }
 }

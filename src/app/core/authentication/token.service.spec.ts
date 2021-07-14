@@ -18,6 +18,7 @@ describe('TokenService', () => {
   });
 
   it('should get authorization header value', () => {
+    // @ts-ignore
     service.set({ token: 'token' });
 
     expect(service.headerValue()).toEqual('Bearer token');

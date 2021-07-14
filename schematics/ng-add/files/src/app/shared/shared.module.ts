@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+// @ts-ignore
 import { MaterialModule } from '../material.module';
 import { MaterialExtensionsModule } from '@ng-matero/extensions';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,13 +16,17 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule } from '@ngx-translate/core';
 
+// @ts-ignore
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+// @ts-ignore
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+// @ts-ignore
 import { ErrorCodeComponent } from './components/error-code/error-code.component';
-
+// @ts-ignore
 import { DisableControlDirective } from './directives/disable-control.directive';
-
+// @ts-ignore
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
+// @ts-ignore
 import { ToObservablePipe } from './pipes/to-observable.pipe';
 
 const MODULES = [

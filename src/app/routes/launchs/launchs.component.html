@@ -3,12 +3,14 @@
 <div fxLayout="row wrap" class="matero-row">
   <div fxFlex="100" class="matero-col">
     <mat-card>
-      <mat-card-title>Form Horizontal</mat-card-title>
+      <mat-card-title>{{ 'launchs.titleLaunch' | translate }}</mat-card-title>
       <form [formGroup]="formGroup" class="form-field-full">
         <div fxLayout="row wrap" fxLayoutGap="8px grid">
           <div fxFlex="50" fxFlex.lt-sm="100">
             <mat-label class="row margin-bottom-10px">{{'launchs.typeLaunch' | translate}}</mat-label>
-            <mat-radio-group formControlName="tpLaunch" name="bread" aria-label="Breads">
+            <mat-radio-group
+              formControlName="tpLaunch"
+              (change)="handleExpesnses($event)">
               <mat-radio-button value="C" class="margin-right-10px">{{'launchs.credit' | translate}}</mat-radio-button>
               <mat-radio-button value="D">{{'launchs.debit' | translate}}</mat-radio-button>
             </mat-radio-group>
@@ -19,10 +21,16 @@
 
           <div fxFlex="50" fxFlex.lt-sm="100">
             <mat-form-field>
-              <mat-label>Username</mat-label>
-              <input matInput placeholder="Simple placeholder" formControlName="username"
+              <mat-label>{{'launchs.value' | translate}}</mat-label>
+              <input matInput
+                     currencyMask
+                     placeholder="{{'launchs.launchValue' | translate}}"
+                     formControlName="valueLaunch"
+                     [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', precision: 2 }"
+                     (focus)="onEndFocus($event)"
+                     (click)="onEndFocus($event)"
                      required>
-              <mat-error *ngIf="formGroup.get('username').invalid">
+              <mat-error *ngIf="formGroup.get('valueLaunch').invalid">
                 {{'validations.required' | translate}}
               </mat-error>
             </mat-form-field>
@@ -30,13 +38,15 @@
 
           <div fxFlex="50" fxFlex.lt-sm="100">
             <mat-form-field>
-              <mat-label>Gender</mat-label>
-              <mat-select required formControlName="gender" required>
-                <mat-option>-- None --</mat-option>
-                <mat-option value="1">male</mat-option>
-                <mat-option value="2">female</mat-option>
+              <mat-label>{{'launchs.expensesTypes' | translate}}</mat-label>
+              <mat-select
+                formControlName="expenseType"
+                [required] = "formGroup.get('tpLaunch').value === 'D'">
+                <mat-option *ngFor="let expense of expensesTypes" [value]="expense.chave">
+                  {{ expense.descricao }}
+                </mat-option>
               </mat-select>
-              <mat-error *ngIf="formGroup.get('gender').invalid">
+              <mat-error *ngIf="formGroup.get('expenseType').invalid">
                 {{'validations.required' | translate}}
               </mat-error>
             </mat-form-field>
@@ -44,11 +54,11 @@
 
           <div fxFlex="50" fxFlex.lt-sm="100">
             <mat-form-field>
-              <mat-label>Mobile</mat-label>
-              <input matInput placeholder="Simple placeholder" type="number"
-                     formControlName="mobile" required>
-              <mat-icon matSuffix>smartphone</mat-icon>
-              <mat-error *ngIf="formGroup.get('mobile').invalid">
+              <mat-label>{{'launchs.observation' | translate}}</mat-label>
+              <input matInput
+                     placeholder="{{'launchs.launchObservation' | translate}}"
+                     formControlName="observation">
+              <mat-error *ngIf="formGroup.get('observation').invalid">
                 {{'validations.required' | translate}}
               </mat-error>
             </mat-form-field>
@@ -70,7 +80,7 @@
         <div fxLayout="row wrap" class="padding-left-96pc">
           <button mat-raised-button
                   color="primary"
-                  (click)="persist()"
+                  (click)="persistAction()"
                   class="m-t-8">Save</button>
         </div>
       </form>
