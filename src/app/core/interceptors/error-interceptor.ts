@@ -48,8 +48,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         skipLocationChange: true,
       }).then();
     } else if (error instanceof HttpErrorResponse) {
-      console.error('ERROR', error);
-      this.toastr.error(error.error.msg || `${error.status} ${error.statusText}`);
+      console.error('ERROR', error.error.errors);
+      this.toastr.error(error.error.errors[0] || `${error.status} ${error.statusText}`);
     }
 
     return throwError(error);

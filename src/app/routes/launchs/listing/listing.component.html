@@ -1,1 +1,112 @@
-<p>listing works!</p>
+<breadcrumb></breadcrumb>
+
+<div fxLayout="row wrap" class="matero-row">
+  <div fxFlex="100" class="matero-col">
+    <mat-card>
+      <mat-card-title class="margin-bottom-30px">{{ 'launchs.titleLaunchListing' | translate }}</mat-card-title>
+      <form [formGroup]="formGroup" class="form-field-full">
+        <div fxLayout="row wrap" fxLayoutGap="8px grid">
+          <div fxFlex="30" fxFlex.lt-sm="100">
+            <mat-form-field>
+              <mat-label>{{'launchs.rangerDate' | translate}}</mat-label>
+              <mat-date-range-input [rangePicker]="rangePicker" required>
+                <input matStartDate placeholder="{{'launchs.startDate' | translate}}" formControlName="datePickerInit">
+                <input matEndDate placeholder="{{'launchs.endDate' | translate}}" formControlName="datePickerFinal">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #rangePicker>
+                <mat-date-range-picker-actions>
+                  <button mat-button matDateRangePickerCancel>
+                    {{'launchs.btnCancel' | translate}}
+                  </button>
+                  <button mat-raised-button color="primary" matDateRangePickerApply>
+                    {{'launchs.btnApply' | translate}}
+                  </button>
+                </mat-date-range-picker-actions>
+              </mat-date-range-picker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row wrap" class="padding-left-90pc">
+          <button mat-raised-button
+                  color="warn"
+                  (click)="cleanAction()"
+                  class="m-t-8 margin-right-10px">{{ 'launchs.btnClean' | translate }}</button>
+          <button mat-raised-button
+                  color="primary"
+                  (click)="listAction()"
+                  class="m-t-8">{{ 'launchs.btnList' | translate }}</button>
+        </div>
+        <section>
+          <mat-table [dataSource]="dataSource" matSort>
+            <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayColumns"></mat-row>
+
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="column-7pc">
+                ID
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}" class="column-7pc">
+                {{ launch.id }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="dateLaunch">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="column-align-center">
+                Date
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}" class="column-align-center">
+                {{ launch.dtLancamento }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="tpLaunch">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="column-align-center">
+                Tp. Launch
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}" class="column-align-center">
+                {{ launch.tpLancamento }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="tpExpense">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Tp. Expense
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}">
+                {{ launch.tpDespesa }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="obs">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Observation
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}">
+                {{ launch.observacao }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="value">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Value
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}">
+                {{ launch.valor }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="column-7pc">
+                Actions
+              </mat-header-cell>
+              <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}" class="column-7pc">
+                <mat-icon class="icon-delete" (click)="openDialog(launch.id)">delete_forever</mat-icon>
+                <mat-icon class="icon-edit" (click)="editAction(launch.id)">edit</mat-icon>
+              </mat-cell>
+            </ng-container>
+          </mat-table>
+          <mat-paginator
+            #paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[10, 15, 20, 25]">
+          </mat-paginator>
+        </section>
+      </form>
+    </mat-card>
+  </div>
+</div>

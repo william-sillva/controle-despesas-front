@@ -3,7 +3,7 @@
 <div fxLayout="row wrap" class="matero-row">
   <div fxFlex="100" class="matero-col">
     <mat-card>
-      <mat-card-title>{{ 'launchs.titleLaunch' | translate }}</mat-card-title>
+      <mat-card-title class="margin-bottom-30px">{{ 'launchs.titleLaunchRegister' | translate }}</mat-card-title>
       <form [formGroup]="formGroup" class="form-field-full">
         <div fxLayout="row wrap" fxLayoutGap="8px grid">
           <div fxFlex="50" fxFlex.lt-sm="100">
@@ -77,11 +77,21 @@
             </mat-form-field>
           </div>
         </div>
-        <div fxLayout="row wrap" class="padding-left-96pc">
+        <div fxLayout="row wrap" class="justify-content-end">
           <button mat-raised-button
                   color="primary"
+                  *ngIf="isSaveAction"
                   (click)="persistAction()"
-                  class="m-t-8">Save</button>
+                  class="m-t-8">
+            {{'launchs.btnSave' | translate}}
+          </button>
+          <button mat-raised-button
+                  color="primary"
+                  *ngIf="!isSaveAction"
+                  (click)="persistAction()"
+                  class="m-t-8">
+            {{'launchs.btnUpdate' | translate}}
+          </button>
         </div>
       </form>
     </mat-card>

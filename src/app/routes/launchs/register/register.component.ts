@@ -3,21 +3,14 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {RegisterService} from './service';
-import {TokenService} from '@core';
+import {AuthService} from '@core';
+import {User} from '@core/authentication/interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TranslateService} from '@ngx-translate/core';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'LL'
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY'
-  }
-};
+import {MY_FORMATS} from '../useful';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-register',
@@ -37,16 +30,20 @@ export const MY_FORMATS = {
 })
 export class RegisterComponent implements OnInit {
 
+  user: User;
   formGroup: FormGroup;
   expensesTypes: [];
+  isSaveAction: boolean;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private _adapter: DateAdapter<any>,
+    private auth: AuthService,
     private service: RegisterService,
-    private tokenService: TokenService,
     public snackBar: MatSnackBar,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) {
     this.formGroup = this.fb.group({
       tpLaunch: ['C', [Validators.required]],
@@ -58,7 +55,31 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getExpensivesType();
+    this.auth.user().subscribe(user => (this.user = user));
+    this.initFields();
+  }
+
+  initFields(): void {
+    this.getExpensivesType()
+      .subscribe(result => {
+          this.expensesTypes = result.data ? result.data : [];
+          this.isSaveAction = true;
+
+          let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
+          if (idLaunch) {
+            const userId = this.user.id.toString();
+            this.service.getLaunchUser(idLaunch, userId)
+              .subscribe(result => {
+                  this.setEditData(result.data);
+                }
+              )
+          }
+        },
+        err => {
+          const msg: string = 'Erro ao obter Tipos de Despesas!';
+          this.showMessageSnack(msg);
+        }
+      )
   }
 
   onEndFocus(args): void {
@@ -74,17 +95,8 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  getExpensivesType() {
-    this.service.getDespesasTypes()
-      .subscribe(
-        data => {
-          this.expensesTypes = data.data ? data.data : [];
-        },
-        err => {
-          const msg: string = 'Erro ao obter Tipos de Despesas!';
-          this.showMessageSnack(msg);
-        }
-      );
+  getExpensivesType(): Observable<any> {
+    return this.service.getDespesasTypes();
   }
 
   persistData(): void {
@@ -93,8 +105,17 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         result => {
           if (result && result.data.id) {
-            this.handleMessageTranslate('launchs.msgSuccessData');
             this.resetFormGroup();
+
+            let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
+            if (idLaunch) {
+              this.router.navigateByUrl(
+                '/launchs/listing/'
+                  .concat(idLaunch)
+              ).then();
+            } else {
+              this.handleMessageTranslate('launchs.msgSuccessData');
+            }
           };
         },
         err => {
@@ -112,9 +133,11 @@ export class RegisterComponent implements OnInit {
   }
 
   getDataConvert(): any {
+    let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
+
     return {
-      id: '',
-      usuarioEmail: this.tokenService.get().email,
+      id: idLaunch ?? '',
+      usuarioId: this.user.id,
       dtLancamento: this._adapter.format(this.formGroup.controls.datePicker.value, MY_FORMATS.display.dateInput),
       valor: this.formGroup.controls.valueLaunch.value,
       tpLancamento: this.formGroup.controls.tpLaunch.value,
@@ -129,6 +152,22 @@ export class RegisterComponent implements OnInit {
     this.formGroup.controls.expenseType.reset({value:'', disabled: true});
     this.formGroup.controls.observation.reset('');
     this.formGroup.controls.datePicker.reset('');
+  }
+
+  setEditData(data): void {
+    this.isSaveAction = false;
+    this.formGroup.controls.tpLaunch.reset(data.tpLancamento);
+    this.formGroup.controls.valueLaunch.reset(data.valor);
+    this.formGroup.controls.observation.reset(data.observacao);
+    this.formGroup.controls.expenseType.reset({value:'', disabled: true});
+
+    let dateEn = moment(data.dtLancamento, MY_FORMATS.display.dateInput);
+    this.formGroup.controls.datePicker.setValue(dateEn);
+
+    if ('D' === data.tpLancamento) {
+      let despesa = this.expensesTypes.find(e => e['descricao'] === data.tpDespesa)
+      this.formGroup.controls.expenseType.reset({value: despesa['chave'], disabled: false});
+    }
   }
 
   handleMessageTranslate(key): void {

@@ -144,11 +144,24 @@
     "close": "Close"
   },
   "launchs":  {
-    "titleLaunch": "Launchs",
+    "titleLaunchRegister": "Launchs Register",
+    "titleLaunchListing": "Launchs Listing",
+    "titleDeleteRegister": "Delete Register",
+    "btnSave": "Save",
+    "btnList": "List",
+    "btnApply": "Apply",
+    "btnCancel": "Cancel",
+    "btnClean": "Clean",
+    "btnClose": "Close",
+    "btnDelete": "Delete",
+    "btnUpdate": "Update",
     "typeLaunch": "Type Launch",
     "credit": "Credit",
     "debit": "Debit",
     "launchDate": "Launch Date",
+    "rangerDate": "Enter a date range",
+    "startDate": "Start Date",
+    "endDate": "End Date",
     "value": "Value",
     "launchValue": "Launch Value",
     "observation": "Observation",
@@ -156,6 +169,10 @@
     "expensesTypes": "Types of Expenses",
     "msgRequiredFields": "Required fields not informed!",
     "msgErrorData": "Error writing data!",
-    "msgSuccessData": "Data registered successfully!"
+    "msgErrorListData": "Error retrieving data!",
+    "msgSuccessData": "Data registered successfully!",
+    "msgConfirmDeleteRegister": "Do you want to delete the record ",
+    "msgDeleteLaunch": "Launch successfully removed",
+    "msgErrorDeleteLaunch": "Error removing Launch!"
   }
 }

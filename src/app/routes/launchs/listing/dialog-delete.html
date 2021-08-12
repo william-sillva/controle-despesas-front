@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{ 'launchs.titleDeleteRegister' | translate }}</h2>
+<div mat-dialog-content>
+  {{ 'launchs.msgConfirmDeleteRegister' | translate }} {{ data.idLaunch }}?
+</div>
+<div mat-dialog-actions align="center">
+  <button mat-raised-button mat-dialog-close>{{ 'launchs.btnClose' | translate }}</button>
+  <button mat-raised-button color="primary" mat-dialog-close="submit" cdkFocusInitial>
+    {{ 'launchs.btnDelete' | translate }}
+  </button>
+</div>

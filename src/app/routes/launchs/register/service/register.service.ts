@@ -8,7 +8,8 @@ import { environment as env } from '@env/environment';
 })
 export class RegisterService {
 
-  private readonly PATH: string = 'lancamentos';
+  private readonly PATH: string = 'lancamentos/';
+  private readonly PATH_DESPESAS = this.PATH.concat('despesas');
 
   constructor(
     private http: HttpClient,
@@ -16,8 +17,17 @@ export class RegisterService {
 
   getDespesasTypes(): Observable<any> {
     return this.http.get(
-      env.baseApiUrl.concat(this.PATH)
+      env.baseApiUrl.concat(this.PATH_DESPESAS)
     )
+  }
+
+  getLaunchUser(id: string, userId: string): Observable<any> {
+    return this.http.get(
+      env.baseApiUrl.concat(this.PATH)
+        .concat(id)
+        .concat('/')
+        .concat(userId)
+    );
   }
 
   persit(data): Observable<any> {
