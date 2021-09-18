@@ -76,8 +76,11 @@ export class RegisterComponent implements OnInit {
           }
         },
         err => {
-          const msg: string = 'Erro ao obter Tipos de Despesas!';
-          this.showMessageSnack(msg);
+          console.error(err);
+          this.handleMessageTranslate(
+            'launchs.msgErrorListData',
+            'launchs.msgErrorExpenses'
+          );
         }
       )
   }
@@ -91,7 +94,10 @@ export class RegisterComponent implements OnInit {
     if (!this.formGroup.invalid) {
       this.persistData();
     } else {
-      this.handleMessageTranslate('launchs.msgRequiredFields');
+      this.handleMessageTranslate(
+        'launchs.msgRequiredFields',
+        'launchs.msgError'
+      );
     }
   }
 
@@ -101,27 +107,41 @@ export class RegisterComponent implements OnInit {
 
   persistData(): void {
     const data = this.getDataConvert();
-    this.service.persit(data)
-      .subscribe(
-        result => {
-          if (result && result.data.id) {
-            this.resetFormGroup();
+    if (data.valor !== 0) {
+      this.service.persit(data)
+        .subscribe(
+          result => {
+            if (result && result.data.id) {
+              this.resetFormGroup();
 
-            let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
-            if (idLaunch) {
-              this.router.navigateByUrl(
-                '/launchs/listing/'
-                  .concat(idLaunch)
-              ).then();
-            } else {
-              this.handleMessageTranslate('launchs.msgSuccessData');
+              let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
+              if (idLaunch) {
+                this.router.navigateByUrl(
+                  '/launchs/listing'
+                ).then();
+              }
+
+              this.handleMessageTranslate(
+                'launchs.msgSuccessData',
+                'launchs.msgSuccess'
+              );
             }
-          };
-        },
-        err => {
-          this.handleMessageTranslate('launchs.msgErrorData');
-        }
+          },
+          err => {
+            console.error(err);
+            this.handleMessageTranslate(
+              'launchs.msgErrorData',
+              'launchs.msgError'
+              );
+          }
+        );
+    } else {
+      this.formGroup.controls.valueLaunch.setErrors({'incorrect': true});
+      this.handleMessageTranslate(
+        'launchs.msgRequiredFields',
+        'launchs.msgError'
       );
+    }
   }
 
   handleExpesnses(event): void {
@@ -170,15 +190,19 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  handleMessageTranslate(key): void {
-    this.translate.get(key)
+  handleMessageTranslate(keyMsg, actionMsg): void {
+    this.translate.get(keyMsg)
       .subscribe(msg => {
-        this.showMessageSnack(msg);
+
+        this.translate.get(actionMsg)
+          .subscribe(action => {
+            this.showMessageSnack(msg, action);
+          });
       });
   }
 
-  showMessageSnack(msg): void {
-    this.snackBar.open(msg, '', {
+  showMessageSnack(msg, action): void {
+    this.snackBar.open(msg, action, {
       duration: 3000,
     });
   }

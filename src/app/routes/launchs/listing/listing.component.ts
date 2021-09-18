@@ -15,6 +15,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import * as moment from 'moment';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
+import {BalanceComponent} from '../balance';
 
 export interface DialogData {
   idLaunch: string;
@@ -40,6 +41,7 @@ export class ListingComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(BalanceComponent, { static: false }) balance: BalanceComponent;
 
   type = 'moment';
   user: User;
@@ -76,14 +78,8 @@ export class ListingComponent implements OnInit {
     this.auth.user()
       .subscribe(user => {
         this.user = user;
-
         if (this.user && this.user.id) {
           this.listData();
-        }
-
-        let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
-        if (idLaunch) {
-          this.handleMessageTranslate('launchs.msgSuccessData');
         }
       });
   }
@@ -92,7 +88,10 @@ export class ListingComponent implements OnInit {
     if (!this.formGroup.invalid) {
       this.listData();
     } else {
-      this.handleMessageTranslate('launchs.msgRequiredFields');
+      this.handleMessageTranslate(
+        'launchs.msgRequiredFields',
+        'launchs.msgError'
+      );
     }
   }
 
@@ -114,13 +113,19 @@ export class ListingComponent implements OnInit {
     const userId = this.user.id.toString();
     this.service.deleteLaunch(idLaunch, userId)
       .subscribe(
-        result => {
-          this.handleMessageTranslate('launchs.msgDeleteLaunch');
+        () => {
+          this.handleMessageTranslate(
+            'launchs.msgDeleteLaunch',
+            'launchs.msgSuccess'
+          );
           this.listData();
         },
         err => {
           console.error(err);
-          this.handleMessageTranslate('launchs.msgErrorDeleteLaunch');
+          this.handleMessageTranslate(
+            'launchs.msgErrorDeleteLaunch',
+            'launchs.msgError'
+          );
         }
       )
   }
@@ -134,10 +139,14 @@ export class ListingComponent implements OnInit {
           this.dataSource = new MatTableDataSource<LaunchModel>(listLaunchs);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
+          this.balance.getBalance();
         },
         err => {
           console.error(err);
-          this.handleMessageTranslate('launchs.msgErrorListData');
+          this.handleMessageTranslate(
+            'launchs.msgErrorListData',
+            'launchs.msgError'
+            );
         }
       );
   }
@@ -176,15 +185,18 @@ export class ListingComponent implements OnInit {
     return date ? this._adapter.format(date, MY_FORMATS.display.dateInput) : '';
   }
 
-  handleMessageTranslate(key): void {
-    this.translate.get(key)
+  handleMessageTranslate(keyMsg, actionMsg): void {
+    this.translate.get(keyMsg)
       .subscribe(msg => {
-        this.showMessageSnack(msg);
+        this.translate.get(actionMsg)
+          .subscribe(action => {
+            this.showMessageSnack(msg, action);
+          });
       });
   }
 
-  showMessageSnack(msg): void {
-    this.snackBar.open(msg, '', {
+  showMessageSnack(msg, action): void {
+    this.snackBar.open(msg, action, {
       duration: 3000,
     });
   }

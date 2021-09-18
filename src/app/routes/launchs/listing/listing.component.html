@@ -5,6 +5,11 @@
     <mat-card>
       <mat-card-title class="margin-bottom-30px">{{ 'launchs.titleLaunchListing' | translate }}</mat-card-title>
       <form [formGroup]="formGroup" class="form-field-full">
+        <div fxLayout="row wrap">
+          <div fxFlex="100" fxFlex.lt-sm="100" fxLayoutAlign="end center">
+            <app-balance></app-balance>
+          </div>
+        </div>
         <div fxLayout="row wrap" fxLayoutGap="8px grid">
           <div fxFlex="30" fxFlex.lt-sm="100">
             <mat-form-field>

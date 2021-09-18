@@ -7,7 +7,6 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'register/:idLaunch', component: RegisterComponent },
   { path: 'listing', component: ListingComponent },
-  { path: 'listing/:idLaunch', component: ListingComponent },
 ];
 
 @NgModule({

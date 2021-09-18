@@ -12,7 +12,7 @@ export class RegisterService {
   private readonly PATH_DESPESAS = this.PATH.concat('despesas');
 
   constructor(
-    private http: HttpClient,
+    private http: HttpClient
   ) { }
 
   getDespesasTypes(): Observable<any> {
