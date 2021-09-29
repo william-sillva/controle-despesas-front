@@ -1,4 +1,4 @@
-import {Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -11,6 +11,7 @@ import {MY_FORMATS} from '../useful';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
+import {BalanceComponent} from '../balance';
 
 @Component({
   selector: 'app-register',
@@ -29,6 +30,8 @@ import * as moment from 'moment';
   ],
 })
 export class RegisterComponent implements OnInit {
+
+  @ViewChild(BalanceComponent, { static: false }) balance: BalanceComponent;
 
   user: User;
   formGroup: FormGroup;
@@ -74,6 +77,8 @@ export class RegisterComponent implements OnInit {
                 }
               )
           }
+
+          this.balance.getBalance();
         },
         err => {
           console.error(err);
@@ -113,7 +118,6 @@ export class RegisterComponent implements OnInit {
           result => {
             if (result && result.data.id) {
               this.resetFormGroup();
-
               let idLaunch = this.activatedRoute.snapshot.params.idLaunch;
               if (idLaunch) {
                 this.router.navigateByUrl(
@@ -121,6 +125,7 @@ export class RegisterComponent implements OnInit {
                 ).then();
               }
 
+              this.balance.getBalance();
               this.handleMessageTranslate(
                 'launchs.msgSuccessData',
                 'launchs.msgSuccess'

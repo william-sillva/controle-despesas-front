@@ -92,7 +92,7 @@
                 Value
               </mat-header-cell>
               <mat-cell *matCellDef="let launch" [ngClass]="{'line-debit' :launch.tpLancamento === 'D'}">
-                {{ launch.valor }}
+                {{ launch.valor | currency: 'BRL' : 'symbol' }}
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
